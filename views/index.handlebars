@@ -1,0 +1,38 @@
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GraphDB Manager</title>
+    <link rel="stylesheet" href="../styles/css/styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      
+      <div class="form-container">
+        <h2>Добавить узел</h2>
+        <input type="text" placeholder="Имя" id="addNodeName" />
+        <button id="addNode">Добавить</button>
+      </div>
+      <div class="form-container">
+        <h2>Добавить связь</h2>
+        <input type="text" placeholder="Имя первого узла" id="addLinkName1" />
+        <input type="text" placeholder="Имя второго узла" id="addLinkName2" />
+        <input type="text" placeholder="Имя связи" id="addLinkName" />
+        <button id="addLink">Добавить</button>
+      </div>
+      <div class="form-container">
+        <h2>Удалить узел</h2>
+        <input type="text" placeholder="Имя" id="deleteName" />
+        <button id="deleteNode">Удалить</button>
+      </div>
+      <div class="form-container">
+        <h2>Удалить связь</h2>
+        <input type="text" placeholder="Имя узла" id="dfn" />
+        <input type="text" placeholder="Имя связи" id="dfl" />
+        <button id="df">Удалить</button>
+      </div>
+    </div>
+    <script src="/scripts/index.js"></script>
+  </body>
+</html>
