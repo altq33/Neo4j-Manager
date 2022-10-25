@@ -50,6 +50,17 @@ app.post("/deleteFriendship", async (req, res) => {
   });
 });
 
+app.post("/connectDB", async (req, res) => {
+  let result = await db.connectDB(
+    req.body.uri,
+    req.body.name,
+    req.body.password
+  );
+  res.json({
+    message: result,
+  });
+});
+
 app.listen(3000, () => {
   console.log("http://127.0.0.1:3000/");
 });

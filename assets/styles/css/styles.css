@@ -6,7 +6,8 @@
 }
 
 body {
-  background: linear-gradient(45deg, #ff0099, #ffc800);
+  background: #5c258d; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #4389a2, #5c258d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-size: 100%;
   font-family: "Roboto";
 }
@@ -179,4 +180,87 @@ body {
   z-index: -1;
   border: 1px solid #fff;
   border-radius: 18px;
+}
+
+.connect-pop-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 3;
+}
+
+.connect-form {
+  position: relative;
+  width: 40%;
+  background: #fff;
+  height: 50%;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.connect-form input {
+  width: 80%;
+  height: 45px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #b882ff;
+  transition: all 0.2s ease;
+  padding-left: 5px;
+}
+.connect-form input:focus {
+  border: 2px solid #b882ff;
+  border-radius: 15px;
+  transition: all 0.2s ease;
+  transform: translate(15px, -10px);
+}
+.connect-form button {
+  background: #5c258d; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #4389a2, #5c258d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 30px;
+  color: white;
+  width: 50%;
+  height: 35px;
+  align-self: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-pop-up {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  width: 20px;
+  display: block;
+}
+.close-pop-up:before, .close-pop-up:after {
+  cursor: pointer;
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 4px;
+  background: #5c258d;
+}
+.close-pop-up:before {
+  transform: rotate(45deg);
+}
+.close-pop-up:after {
+  transform: rotate(-45deg);
+}
+
+.close {
+  background: transparent;
+  transform: translateX(-100%);
+  transition: transform 0.8s;
 }/*# sourceMappingURL=styles.css.map */

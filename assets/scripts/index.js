@@ -96,3 +96,38 @@ const deleteFriendship = () => {
 };
 
 document.querySelector("#df").addEventListener("click", deleteFriendship);
+const popup = document.querySelector(".connect-pop-up");
+const connectDb = () => {
+  let uri = document.querySelector("#uri").value;
+  let name = document.querySelector("#name").value;
+  let password = document.querySelector("#password").value;
+
+  let data = {
+    uri: uri,
+    name: name,
+    password: password,
+  };
+
+  fetch("/connectDB", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      alert(data.message);
+      if (data.message == "DB Connected") {
+        popup.classList.add("close");
+      }
+    });
+};
+
+document.querySelector("#req").addEventListener("click", connectDb);
+
+const closePopUp = document.querySelector(".close-pop-up");
+
+closePopUp.addEventListener("click", () => popup.classList.add("close"));
