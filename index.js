@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/addNode", async (req, res) => {
-  let result = await db.createPerson(req.body.addNodeName);
+  let result = await db.createPerson(req.body.addNodeName, req.body.label);
   res.json({
     message: result,
   });
@@ -34,7 +34,30 @@ app.post("/addLink", async (req, res) => {
 });
 
 app.post("/deleteNode", async (req, res) => {
-  let result = await db.deleteNode(req.body.deleteName);
+  let result = await db.deleteNode(req.body.deleteName, req.body.label);
+  res.json({
+    message: result,
+  });
+});
+
+app.post("/delProp", async (req, res) => {
+  let result = await db.delProp(
+    req.body.name,
+    req.body.label,
+    req.body.propName
+  );
+  res.json({
+    message: result,
+  });
+});
+
+app.post("/addProp", async (req, res) => {
+  let result = await db.addProp(
+    req.body.name,
+    req.body.label,
+    req.body.propName,
+    req.body.propVal
+  );
   res.json({
     message: result,
   });

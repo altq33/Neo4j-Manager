@@ -70,14 +70,52 @@ async function createFriendship(person1Name, person2Name, link) {
   }
 }
 
-async function deleteNode(person1Name) {
+async function addProp(name, label, propName, propVal) {
   if (!connected) {
     return "DATABASE NOT CONNECTED";
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Deleted ${person1Name}`;
+  let res = `Add ${propName} property to ${name} : ${propVal} with ${label} label`;
   try {
-    const writeQuery = `MATCH (node:${person1Name} ) 
+    const writeQuery = `MATCH (n:${label} {name: '${name}'})
+    SET n.${propName} = '${propVal}'`;
+
+    await session.writeTransaction((tx) => tx.run(writeQuery, { name }));
+  } catch (error) {
+    res = `Something went wrong: ${error}`;
+  } finally {
+    await session.close();
+    return res;
+  }
+}
+
+async function delProp(name, label, propName) {
+  if (!connected) {
+    return "DATABASE NOT CONNECTED";
+  }
+  const session = driver.session({ database: "neo4j" });
+  let res = `Deleted property ${propName} by the ${name} of ${label} label`;
+  try {
+    const writeQuery = `MATCH (a:${label} {name: '${name}'})
+    REMOVE a.${propName}`;
+
+    await session.writeTransaction((tx) => tx.run(writeQuery, { name }));
+  } catch (error) {
+    res = `Something went wrong: ${error}`;
+  } finally {
+    await session.close();
+    return res;
+  }
+}
+
+async function deleteNode(person1Name, nodeLabel) {
+  if (!connected) {
+    return "DATABASE NOT CONNECTED";
+  }
+  const session = driver.session({ database: "neo4j" });
+  let res = `Deleted ${person1Name} of ${nodeLabel} label`;
+  try {
+    const writeQuery = `MATCH (node:${nodeLabel} {name:"${person1Name}"} ) 
     DETACH DELETE node`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, { person1Name }));
@@ -89,14 +127,15 @@ async function deleteNode(person1Name) {
   }
 }
 
-async function createPerson(person1Name) {
+async function createPerson(person1Name, nodeLabel) {
   if (!connected) {
     return "DATABASE NOT CONNECTED";
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Created ${person1Name}`;
+  let res = `Created ${person1Name} with ${nodeLabel} label`;
   try {
-    const writeQuery = `CREATE (p:${person1Name} )`;
+    const writeQuery = `CREATE (p:${nodeLabel} {name:"${person1Name}"} )`;
+
     await session.writeTransaction((tx) => tx.run(writeQuery, { person1Name }));
   } catch (error) {
     res = `Something went wrong: ${error}`;
@@ -111,3 +150,5 @@ module.exports.createFriendship = createFriendship;
 module.exports.deleteNode = deleteNode;
 module.exports.deleteFriendship = deleteFriendship;
 module.exports.connectDB = connectDB;
+module.exports.addProp = addProp;
+module.exports.delProp = delProp;

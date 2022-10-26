@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GraphDB Manager</title>
     <link rel="stylesheet" href="../styles/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div class="wrap">
-      <div class="connect-pop-up">
+      <div class="open-db-connect-button">
+        <h2>БД</h2>
+        <i class="fa-solid fa-database"></i>
+      </div>
+
+      <div class="connect-pop-up open">
         <div class="connect-form">
           <div class="close-pop-up">
           </div>
@@ -19,29 +31,67 @@
           <button id="req">Отправить</button>
         </div>
       </div>
-      <div class="form-container">
-        <h2>Добавить узел</h2>
-        <input type="text" placeholder="Имя" id="addNodeName" />
-        <button id="addNode">Добавить</button>
+
+      <!-- Основная верстка  -->
+      <div class="add-container">
+        <h2 class="title">Добавление</h2>
+        <div class="form-container">
+          <h2>Добавить узел</h2>
+          <input type="text" placeholder="Имя" id="addNodeName" />
+          <input type="text" placeholder="Метка" id="addNodeLabel" />
+          <button id="addNode">Добавить</button>
+        </div>
+        <div class="form-container">
+          <h2>Добавить связь</h2>
+          <input
+            type="text"
+            placeholder="Метка первого узла"
+            id="addLinkName1"
+          />
+          <input
+            type="text"
+            placeholder="Метка второго узла"
+            id="addLinkName2"
+          />
+          <input type="text" placeholder="Имя связи" id="addLinkName" />
+          <button id="addLink">Добавить</button>
+        </div>
+        <div class="form-container">
+          <h2>Добавить свойство</h2>
+          <input type="text" placeholder="Метка" id="addPropLabel" />
+          <input type="text" placeholder="Имя" id="addPropName" />
+          <input type="text" placeholder="Имя свойства" id="addPropProp" />
+          <input
+            type="text"
+            placeholder="Значение свойства"
+            id="addPropValue"
+          />
+          <button id="addProp">Добавить</button>
+        </div>
       </div>
-      <div class="form-container">
-        <h2>Добавить связь</h2>
-        <input type="text" placeholder="Имя первого узла" id="addLinkName1" />
-        <input type="text" placeholder="Имя второго узла" id="addLinkName2" />
-        <input type="text" placeholder="Имя связи" id="addLinkName" />
-        <button id="addLink">Добавить</button>
+      <div class="delete-container">
+        <h2 class="title">Удаление</h2>
+        <div class="form-container">
+          <h2>Удалить узел</h2>
+          <input type="text" placeholder="Имя" id="deleteName" />
+          <input type="text" placeholder="Метка" id="deleteLabel" />
+          <button id="deleteNode">Удалить</button>
+        </div>
+        <div class="form-container">
+          <h2>Удалить связь</h2>
+          <input type="text" placeholder="Метка узла" id="dfn" />
+          <input type="text" placeholder="Имя связи" id="dfl" />
+          <button id="df">Удалить</button>
+        </div>
+        <div class="form-container">
+          <h2>Удалить свойство</h2>
+          <input type="text" placeholder="Метка" id="delPropLabel" />
+          <input type="text" placeholder="Имя" id="delPropName" />
+          <input type="text" placeholder="Имя свойства" id="delPropProp" />
+          <button id="delProp">Удалить</button>
+        </div>
       </div>
-      <div class="form-container">
-        <h2>Удалить узел</h2>
-        <input type="text" placeholder="Имя" id="deleteName" />
-        <button id="deleteNode">Удалить</button>
-      </div>
-      <div class="form-container">
-        <h2>Удалить связь</h2>
-        <input type="text" placeholder="Имя узла" id="dfn" />
-        <input type="text" placeholder="Имя связи" id="dfl" />
-        <button id="df">Удалить</button>
-      </div>
+
     </div>
     <script src="/scripts/index.js"></script>
   </body>
