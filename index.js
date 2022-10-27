@@ -18,7 +18,8 @@ app.get("/", (req, res) => {
 app.post("/addNode", async (req, res) => {
   let result = await db.createPerson(req.body.addNodeName, req.body.label);
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 
@@ -29,14 +30,16 @@ app.post("/addLink", async (req, res) => {
     req.body.addLinkName
   );
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 
 app.post("/deleteNode", async (req, res) => {
   let result = await db.deleteNode(req.body.deleteName, req.body.label);
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 
@@ -47,7 +50,8 @@ app.post("/delProp", async (req, res) => {
     req.body.propName
   );
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 
@@ -59,7 +63,8 @@ app.post("/addProp", async (req, res) => {
     req.body.propVal
   );
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 
@@ -69,7 +74,8 @@ app.post("/deleteFriendship", async (req, res) => {
     req.body.deleteLink
   );
   res.json({
-    message: result,
+    message: result.message,
+    status: result.status,
   });
 });
 

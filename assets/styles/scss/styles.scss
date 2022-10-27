@@ -341,3 +341,35 @@ body {
     padding: 10px;
   }
 }
+
+.status-db {
+  position: fixed;
+  left: 45%;
+  top: 20px;
+  display: none;
+  width: 100px;
+  height: 70px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.status-req {
+  position: fixed;
+  left: calc(50% - 250px);
+  top: 20px;
+  display: none;
+  width: 500px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 10px;
+
+  p {
+    display: block;
+  }
+}

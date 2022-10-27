@@ -16,7 +16,7 @@ const addNode = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
@@ -43,7 +43,7 @@ const addLink = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
@@ -68,7 +68,7 @@ const deleteNode = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
@@ -94,7 +94,7 @@ const deleteFriendship = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
@@ -123,12 +123,12 @@ const addPropetry = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
 document.querySelector("#addProp").addEventListener("click", addPropetry);
-
+const statusReq = document.querySelector(".status-req");
 const delPropetry = () => {
   let name = document.querySelector("#delPropName").value;
   let label = document.querySelector("#delPropLabel").value;
@@ -151,7 +151,7 @@ const delPropetry = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
+      showPopUp(data);
     });
 };
 
@@ -180,9 +180,18 @@ const connectDb = () => {
       return res.json();
     })
     .then((data) => {
-      alert(data.message);
-      if (data.message == "DB Connected") {
+      const statusBar = document.querySelector(".status-db");
+      if (data.message === "DB Connected") {
+        statusBar.style.display = "flex";
+        statusBar.style.color = "rgb(0, 225, 0)";
+        statusBar.textContent = data.message;
+        setTimeout(() => (statusBar.style.display = "none"), 2000);
         popup.classList.add("close");
+      } else {
+        statusBar.style.display = "flex";
+        statusBar.style.color = "rgb(225, 0, 0)";
+        statusBar.textContent = data.message;
+        setTimeout(() => (statusBar.style.display = "none"), 2000);
       }
     });
 };
@@ -200,3 +209,18 @@ openPopUp.addEventListener("click", () => {
   popup.classList.add("open");
   popup.classList.remove("close");
 });
+
+const showPopUp = (data) => {
+  if (data.status) {
+    statusReq.style.display = "flex";
+    statusReq.style.color = "rgb(0, 225, 0)";
+    statusReq.firstChild.textContent = data.message;
+    setTimeout(() => (statusReq.style.display = "none"), 2000);
+    popup.classList.add("close");
+  } else {
+    statusReq.style.display = "flex";
+    statusReq.style.color = "rgb(225, 0, 0)";
+    statusReq.firstChild.textContent = data.message;
+    setTimeout(() => (statusReq.style.display = "none"), 2000);
+  }
+};

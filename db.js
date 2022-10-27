@@ -2,11 +2,14 @@ const neo4j = require("neo4j-driver");
 let connected = false;
 let driver;
 async function connectDB(uri, user, password) {
-  let result = "DB Connected";
+  let result;
+
   try {
     driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+    result = "DB Connected";
   } catch (error) {
     result = "Failed to connect";
+    connected = false;
   } finally {
     if (result != "Failed to connect") {
       connected = true;
@@ -17,10 +20,16 @@ async function connectDB(uri, user, password) {
 
 async function deleteFriendship(person1Name, linkname) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let result = `Deleted link ${linkname} by the node ${person1Name}`;
+  let result = {
+    message: `Deleted link ${linkname} by the node ${person1Name}`,
+    status: true,
+  };
   try {
     const writeQuery = `MATCH (n:${person1Name})-[r:${linkname}]->()
       DELETE r`;
@@ -32,10 +41,12 @@ async function deleteFriendship(person1Name, linkname) {
     writeResult.records.forEach((record) => {
       const person1Node = record.get("n");
 
-      result = `Deleted link ${linkname} by the node ${person1Node}`;
+      result.message = `Deleted link ${linkname} by the node ${person1Node}`;
+      result.status = true;
     });
   } catch (error) {
-    result = `Something went wrong: ${error}`;
+    result.message = `Something went wrong: ${error}`;
+    result.status = false;
   } finally {
     await session.close();
     return result;
@@ -44,10 +55,13 @@ async function deleteFriendship(person1Name, linkname) {
 
 async function createFriendship(person1Name, person2Name, link) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let res = "No changes records";
+  let res = { message: "No changes records", status: true };
   try {
     const writeQuery = `MATCH (p1:${person1Name}), (p2:${person2Name})
     MERGE (p1) - [:${link}] -> (p2)
@@ -60,10 +74,12 @@ async function createFriendship(person1Name, person2Name, link) {
     writeResult.records.forEach((record) => {
       const person1Node = record.get("p1");
       const person2Node = record.get("p2");
-      res = `Created friendship between: ${person1Node}, ${person2Node}`;
+      res.message = `Created friendship between: ${person1Node}, ${person2Node}`;
+      res.status = true;
     });
   } catch (error) {
-    res = `Something went wrong: ${error}`;
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
   } finally {
     await session.close();
     return res;
@@ -72,17 +88,24 @@ async function createFriendship(person1Name, person2Name, link) {
 
 async function addProp(name, label, propName, propVal) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Add ${propName} property to ${name} : ${propVal} with ${label} label`;
+  let res = {
+    message: `Add ${propName} property to ${name} : ${propVal} with ${label} label`,
+    status: true,
+  };
   try {
     const writeQuery = `MATCH (n:${label} {name: '${name}'})
     SET n.${propName} = '${propVal}'`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, { name }));
   } catch (error) {
-    res = `Something went wrong: ${error}`;
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
   } finally {
     await session.close();
     return res;
@@ -91,17 +114,24 @@ async function addProp(name, label, propName, propVal) {
 
 async function delProp(name, label, propName) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Deleted property ${propName} by the ${name} of ${label} label`;
+  let res = {
+    message: `Deleted property ${propName} by the ${name} of ${label} label`,
+    status: true,
+  };
   try {
     const writeQuery = `MATCH (a:${label} {name: '${name}'})
     REMOVE a.${propName}`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, { name }));
   } catch (error) {
-    res = `Something went wrong: ${error}`;
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
   } finally {
     await session.close();
     return res;
@@ -110,17 +140,24 @@ async function delProp(name, label, propName) {
 
 async function deleteNode(person1Name, nodeLabel) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Deleted ${person1Name} of ${nodeLabel} label`;
+  let res = {
+    message: `Deleted ${person1Name} of ${nodeLabel} label`,
+    status: true,
+  };
   try {
     const writeQuery = `MATCH (node:${nodeLabel} {name:"${person1Name}"} ) 
     DETACH DELETE node`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, { person1Name }));
   } catch (error) {
-    res = `Something went wrong: ${error}`;
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
   } finally {
     await session.close();
     return res;
@@ -129,16 +166,23 @@ async function deleteNode(person1Name, nodeLabel) {
 
 async function createPerson(person1Name, nodeLabel) {
   if (!connected) {
-    return "DATABASE NOT CONNECTED";
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
   }
   const session = driver.session({ database: "neo4j" });
-  let res = `Created ${person1Name} with ${nodeLabel} label`;
+  let res = {
+    message: `Created ${person1Name} with ${nodeLabel} label`,
+    status: true,
+  };
   try {
     const writeQuery = `CREATE (p:${nodeLabel} {name:"${person1Name}"} )`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, { person1Name }));
   } catch (error) {
-    res = `Something went wrong: ${error}`;
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
   } finally {
     await session.close();
     return res;
