@@ -228,3 +228,21 @@ const showPopUp = (data) => {
     setTimeout(() => (statusReq.style.display = "none"), 2000);
   }
 };
+
+const updateEvents = () => {
+  fetch("/updEvents", {
+    method: "POST",
+    body: null,
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      showPopUp(data);
+    });
+};
+
+document.querySelector("#resend-req").addEventListener("click", updateEvents);

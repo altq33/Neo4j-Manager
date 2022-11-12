@@ -37,6 +37,14 @@ app.post("/addLink", async (req, res) => {
   });
 });
 
+app.post("/updEvents", async (req, res) => {
+  let result = await db.updateEvents();
+  res.json({
+    message: result.message,
+    status: result.status,
+  });
+});
+
 app.post("/deleteNode", async (req, res) => {
   let result = await db.deleteNode(req.body.deleteName, req.body.label);
   res.json({

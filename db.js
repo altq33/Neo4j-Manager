@@ -53,6 +53,29 @@ async function deleteFriendship(person1Name, linkname) {
   }
 }
 
+async function updateEvents() {
+  if (!connected) {
+    return {
+      message: "DATABASE NOT CONNECTED",
+      status: false,
+    };
+  }
+  const session = driver.session({ database: "neo4j" });
+  let res = { message: "Events updated!", status: true };
+  try {
+    const writeQuery = `MATCH(a:Action) - [:Предполагать_взаимодействие] -> (i:Interface)
+    MERGE (i) - [:Вызывать] -> (e:Event {type:(i.type + "_" + a.type)})`;
+
+    await session.writeTransaction((tx) => tx.run(writeQuery, {}));
+  } catch (error) {
+    res.message = `Something went wrong: ${error}`;
+    res.status = false;
+  } finally {
+    await session.close();
+    return res;
+  }
+}
+
 async function createFriendship(person1Name, person2Name, link, tag1, tag2) {
   if (!connected) {
     return {
@@ -196,3 +219,4 @@ module.exports.deleteFriendship = deleteFriendship;
 module.exports.connectDB = connectDB;
 module.exports.addProp = addProp;
 module.exports.delProp = delProp;
+module.exports.updateEvents = updateEvents;
