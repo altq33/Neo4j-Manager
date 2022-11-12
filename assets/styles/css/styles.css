@@ -348,4 +348,11 @@ body {
 }
 .status-req p {
   display: block;
+}
+
+#big_container {
+  height: 600px;
+}
+#big_container:after, #big_container:before {
+  height: 600px;
 }/*# sourceMappingURL=styles.css.map */

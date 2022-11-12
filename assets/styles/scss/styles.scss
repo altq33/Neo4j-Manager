@@ -373,3 +373,10 @@ body {
     display: block;
   }
 }
+
+#big_container {
+  height: 600px;
+  &:after, &:before { 
+    height: 600px;
+  }
+}

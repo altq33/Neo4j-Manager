@@ -27,7 +27,9 @@ app.post("/addLink", async (req, res) => {
   let result = await db.createFriendship(
     req.body.addLinkName1,
     req.body.addLinkName2,
-    req.body.addLinkName
+    req.body.addLinkName,
+    req.body.addLinkTag1,
+    req.body.addLinkTag2
   );
   res.json({
     message: result.message,

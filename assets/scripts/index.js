@@ -25,10 +25,14 @@ document.querySelector("#addNode").addEventListener("click", addNode);
 const addLink = () => {
   let name1 = document.querySelector("#addLinkName1").value;
   let name2 = document.querySelector("#addLinkName2").value;
+  let tag1 = document.querySelector("#addLinkTag1").value;
+  let tag2 = document.querySelector("#addLinkTag2").value;
   let link = document.querySelector("#addLinkName").value;
   let data = {
     addLinkName1: name1,
     addLinkName2: name2,
+    addLinkTag1: tag1,
+    addLinkTag2: tag2,
     addLinkName: link,
   };
 

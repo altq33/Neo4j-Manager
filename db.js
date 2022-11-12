@@ -53,7 +53,7 @@ async function deleteFriendship(person1Name, linkname) {
   }
 }
 
-async function createFriendship(person1Name, person2Name, link) {
+async function createFriendship(person1Name, person2Name, link, tag1, tag2) {
   if (!connected) {
     return {
       message: "DATABASE NOT CONNECTED",
@@ -63,7 +63,7 @@ async function createFriendship(person1Name, person2Name, link) {
   const session = driver.session({ database: "neo4j" });
   let res = { message: "No changes records", status: true };
   try {
-    const writeQuery = `MATCH (p1:${person1Name}), (p2:${person2Name})
+    const writeQuery = `MATCH (p1:${person1Name} {name:"${tag1}"} ), (p2:${person2Name} {name:"${tag2}"})
     MERGE (p1) - [:${link}] -> (p2)
     RETURN p1, p2`;
 
