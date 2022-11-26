@@ -63,8 +63,8 @@ async function updateEvents() {
   const session = driver.session({ database: "neo4j" });
   let res = { message: "Events updated!", status: true };
   try {
-    const writeQuery = `MATCH(a:Action) - [:Предполагать_взаимодействие] -> (i:Interface)
-    MERGE (i) - [:Вызывать] -> (e:Event {type:(i.type + "_" + a.type)})`;
+    const writeQuery = `MATCH(a:Action) - [:\`Предполагать_взаимодействие_с\`] -> (i:Interface)
+    MERGE (i) - [:Вызывать] -> (e:Event {type:(i.Type + "_" + a.type)})`;
 
     await session.writeTransaction((tx) => tx.run(writeQuery, {}));
   } catch (error) {
